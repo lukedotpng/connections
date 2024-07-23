@@ -4,36 +4,22 @@
 #include <stdio.h>
 #include "connections.h"
 
-enum color {
-    BLACK,
-    RED,
-    GREEN,
-    YELLOW,
-    BLUE,
-    MAGENTA,
-    CYAN,
-    WHITE,
-    DEFAULT,
-    RESET,
-};
+#define YELLOW_SOLVED_COLOR_PAIR   1
+#define GREEN_SOLVED_COLOR_PAIR    2
+#define BLUE_SOLVED_COLOR_PAIR     3
+#define PURPLE_SOLVED_COLOR_PAIR   4
+#define TILE_COLOR_PAIR            5
+#define HIGHLIGHTED_COLOR_PAIR     6
+#define SELECTED_COLOR_PAIR        7
 
-
-/**
- * @brief  
- * Add n amount of new lines to create 
- * @param height  
- * @return int 
- */
-int initialize_canvas(int height);
-
-void draw(const char* string, enum color text_color, enum color background_color);
+void initialize_canvas();
 
 /**
  * @brief Draws the connection board
  * 
  * @param board 
  */
-void tdraw_board(const cboard board);
+void tdraw_board(cboard* board);
 /**
  * @brief Draws a connection tile
  * 
@@ -43,13 +29,12 @@ void tdraw_board(const cboard board);
  * @param column
  * @param row
  */
-void tdraw_tile(const gitem item, int length, int height, int column_index, int row_index);
+void tdraw_tile(const citem item, int length, int height, int column_index, int row_index);
 
-void tdraw_tile_padding(int tile_length);
+void tdraw_tile_padding(int tile_length, int column, int row);
+
+void tdraw_highlight_box(int tile_length, int left_padding_size, int column, int row);
 
 void tdraw_guessed_row(const cgroup group);
-
-const char* color_to_ansi_text(enum color color);
-const char* color_to_ansi_background(enum color color);
 
 #endif
