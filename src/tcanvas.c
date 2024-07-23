@@ -77,10 +77,10 @@ void tdraw_tile(const citem item, int length, int height, int column_index, int 
     
     // Clue
     if(item.is_highlighted) {
-        attron(A_UNDERLINE | A_BOLD | A_ITALIC);
+        attron(A_UNDERLINE | A_BOLD);
     }
     mvprintw(row + 1, column + left_padding_size, item.clue);
-    attroff(A_UNDERLINE | A_BOLD | A_ITALIC);
+    attroff(A_UNDERLINE | A_BOLD);
 
     // Deactivate tile color theme
     attroff(A_COLOR);

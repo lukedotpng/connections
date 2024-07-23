@@ -1,8 +1,10 @@
 #include "../lib/connections.h"
 #include "../lib/tcanvas.h"
+#include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 int game_loop(cboard board) {
     initialize_canvas();
@@ -39,18 +41,32 @@ int game_loop(cboard board) {
                     int selected_items_index = 0;
                     for(int i = 0; i < board.selected_items_count; i++) {
                         if(board.selected_items[i]->is_highlighted) {
+                            board.selected_items[i]->is_selected = false;
                             continue;
                         }
-                        new_selected_items[i] = board.selected_items[selected_items_index];
+                        new_selected_items[selected_items_index] = board.selected_items[i];
+                        selected_items_index++;
                     }
-                }
+                    memcpy(board.selected_items, new_selected_items, 4 * sizeof(citem*));
+                    board.selected_items_count = selected_items_index;
 
-                board.selected_items[board.selected_items_count] = &board.items[board.current_highlighted_tile];
-                board.selected_items[board.selected_items_count]->is_selected = true;
-                board.selected_items_count++;
+                    // for(int i = 0; i < selected_items_index; i++) {
+                    //     free(new_selected_items[i]);
+                    // }
+                }
+                else {
+                    if(board.selected_items_count == 4) {
+                        break;
+                    }
+                    board.selected_items[board.selected_items_count] = &board.items[board.current_highlighted_tile];
+                    board.selected_items[board.selected_items_count]->is_selected = true;
+                    board.selected_items_count++;
+                }
                 break;
             case 10:
-                if(board.selected_items_count < 4) break;
+                if(board.selected_items_count < 4) {
+                    break;
+                }
 
                 for(int i = 0; i < board.selected_items_count; i++) {
                     board.selected_items[i]->is_selected = false;
