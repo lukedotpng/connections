@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ncurses.h>
-#include <sys/_types/_null.h>
 #include "../lib/tcanvas.h"
 #include "../lib/connections.h"
 
