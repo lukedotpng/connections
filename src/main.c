@@ -1,4 +1,3 @@
-#include <curses.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <ncurses.h>
