@@ -1,3 +1,5 @@
+include .env
+
 CC := gcc
 CFLAGS := -g
 LINKFLAGS :=
@@ -13,12 +15,7 @@ ifeq ($(OS),Linux)
 	LINKFLAGS += -lncurses -ltinfo
 else ifeq ($(shell uname),Darwin)
 	OS = osx
-	ifeq ($(NCURSESTATIC),)
-		@echo $(error Please set NCURSESTATIC to path of libncurses.a file)
-	else
-		${NCURSESTATIC} = 
-	endif
-	CFLAGS += ${NCURSESTATIC} 
+	CFLAGS += ${ncursespath} 
 endif
 
 build: $(objects) | ${BINDIR}
