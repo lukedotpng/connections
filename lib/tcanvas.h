@@ -29,12 +29,12 @@ void tdraw_board(cboard* board);
  * @param column
  * @param row
  */
-void tdraw_tile(const citem item, int length, int height, int column_index, int row_index);
+void tdraw_tile(citem item, int length, int height, int board_placement);
 
-void tdraw_tile_padding(int tile_length, int column, int row);
+void tdraw_padding(int length, int column, int row);
 
 void tdraw_highlight_box(int tile_length, int left_padding_size, int column, int row);
 
-void tdraw_guessed_row(const cgroup group);
+void tdraw_guessed_row(cgroup group, int row, int length);
 
 #endif

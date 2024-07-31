@@ -37,23 +37,33 @@ void tdraw_board(cboard* board) {
     int tile_height = 3;
 
     int item_count = 0;
+    int placement_index = 0;
     for(int row = 0; row < 4; row++) {
-        // Draw blamk above
         for(int col = 0; col < 4; col++) {
-            tdraw_tile(board->items[item_count], tile_length, tile_height, col, row);
+            if(board->items[item_count].is_hidden == false) {
+                tdraw_tile(board->items[item_count], tile_length, tile_height, placement_index);
+                placement_index++;
+            }
             item_count++;
         }
+    }
+
+    for(int i = 0; i < board->solved_groups_count; i++) {
+        // tdraw_guessed_row(board->groups[board->solved_groups[i]], i, tile_length);
     }
     // printf("\n");
 }
 
-void tdraw_tile(const citem item, int length, int height, int column_index, int row_index) {
+void tdraw_tile(const citem item, int length, int height, int board_placement) {
     int clue_length = strlen(item.clue);
     int clue_padding = length - clue_length;
 
-    // Some magic numbers dont mind these :P
-    int column = column_index * (length + 2);
-    int row = row_index * 4;
+    // 0  1  2  3
+    // 4  5  6  7 
+    // 8  9  10 11 
+    // 12 13 14 15 
+    int column = (board_placement % 4) * (length + 2);
+    int row = (board_placement / 4) * 4;
 
     int left_padding_size = clue_padding / 2;
     int right_padding_size = clue_padding - left_padding_size;
@@ -66,13 +76,13 @@ void tdraw_tile(const citem item, int length, int height, int column_index, int 
     }
 
     // Upper padding
-    tdraw_tile_padding(length, column, row);
+    tdraw_padding(length, column, row);
     // Left padding
-    tdraw_tile_padding(left_padding_size, column, row + 1);
+    tdraw_padding(left_padding_size, column, row + 1);
     // Right padding
-    tdraw_tile_padding(right_padding_size, column + (length - right_padding_size), row + 1);
+    tdraw_padding(right_padding_size, column + (length - right_padding_size), row + 1);
     // Lower padding
-    tdraw_tile_padding(length, column, row + 2);
+    tdraw_padding(length, column, row + 2);
     
     // Clue
     if(item.is_highlighted) {
@@ -83,36 +93,31 @@ void tdraw_tile(const citem item, int length, int height, int column_index, int 
 
     // Deactivate tile color theme
     attroff(A_COLOR);
-
-    if(item.is_highlighted) {
-        tdraw_highlight_box(clue_length, left_padding_size, column, row);
-    }
 }
 
-void tdraw_tile_padding(int tile_length, int column, int row) {
+void tdraw_padding(int length, int column, int row) {
     // char padding_string[tile_length];
     // memset(padding_string, ' ', tile_length);
-    mvhline(row, column, ' ', tile_length);
+    mvhline(row, column, ' ', length);
     // printf("%s%s", color_to_ansi_background((enum color)WHITE), padding_string);
 }
 
-void tdraw_highlight_box(int tile_length, int left_padding_size, int column, int row) {
-    attron(COLOR_PAIR(HIGHLIGHTED_COLOR_PAIR));
+void tdraw_guessed_row(cgroup group, int row, int length) {
+    attron(COLOR_PAIR(group.identifier));
 
-    // // Top line
-    // mvhline(row, column, 0, tile_length - 1);
-    // // Bottom line
-    // mvhline(row + 2, column, 0, tile_length - 1);
-    // // Left line
-    // mvvline(row, column, 0, 3);
-    // // Right Line
-    // mvvline(row, column + tile_length - 1, 0, 3);
+    int row_length = (length * 4) + 6;
+    int category_length = strlen(group.category);
+    int row_padding = row_length - category_length;
 
-    // mvaddch(row, column, ACS_ULCORNER);
-    // mvaddch(row + 2, column, ACS_LLCORNER);
-    // mvaddch(row, column + tile_length - 1, ACS_URCORNER);
-    // mvaddch(row + 2, column + tile_length - 1, ACS_LRCORNER);
-    // mvhline(row + 2, column + left_padding_size, '', tile_length);
+    int left_padding_size = row_padding / 2;
+    int right_padding_size = row_padding - left_padding_size;
 
-    attroff(COLOR_PAIR(HIGHLIGHTED_COLOR_PAIR));
+    tdraw_padding(row_length, row, 0);
+    tdraw_padding(left_padding_size, row + 1, 0);
+    tdraw_padding(right_padding_size, row + 1, length - right_padding_size);
+    tdraw_padding(row_length, row + 2, 0);
+
+    mvprintw(row + 1, left_padding_size, group.category);
+
+    attroff(A_COLOR);
 }

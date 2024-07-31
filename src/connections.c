@@ -18,7 +18,6 @@ int game_loop(cboard board) {
 
     board.items[0].is_highlighted = true;
     board.current_highlighted_tile = 0;
-    char input;
 
     clear();
 
@@ -26,8 +25,7 @@ int game_loop(cboard board) {
         tdraw_board(&board);
         refresh();
 
-        input = wgetch(stdscr);
-        handle_key_press(&board, input);
+        handle_key_press(&board);
 
         board.previous_highlighted_tile = board.current_highlighted_tile;
     }   
@@ -37,47 +35,6 @@ int game_loop(cboard board) {
     curs_set(1);
     reset_shell_mode();
     return 0;
-}
-
-void handle_key_press(cboard* board, char input) {
-        switch (input) {
-        // Stop game loop
-        case QUIT_GAME:
-            handle_quit(board);
-            break;
-        // Highlight tile
-        case TOGGLE_TILE_HIGHLIGHT:
-            handle_tile_highlight_toggle(board);
-            break;
-        // Submit guess
-        case SUBMIT_GUESS:
-            handle_guess_submit(board);
-            break;
-        // Handle up movement
-        case W_KEY:
-            handle_up_movement(board);
-            break;
-        // Handle down movement
-        case S_KEY:
-            handle_down_movement(board);
-            break;
-        // Handle right movement
-        case D_KEY:
-            handle_right_movement(board);
-            break;
-        // Handle left movement
-        case A_KEY:
-            handle_left_movement(board);
-            break;
-        default:
-            break;
-    }
-    board->items[board->previous_highlighted_tile].is_highlighted = false;
-    board->items[board->current_highlighted_tile].is_highlighted = true;
-}
-
-void handle_quit(cboard* board) {
-    board->game_active = false;
 }
 
 void handle_tile_highlight_toggle(cboard* board) {
@@ -114,11 +71,103 @@ void handle_guess_submit(cboard* board) {
         return;
     }
 
+    int guess_check_result = check_guess(board);
+
+    if(guess_check_result > 0) {
+        board->solved_groups[board->solved_groups_count] = guess_check_result;
+        board->solved_groups_count++;
+        clear();
+    }
+
     for(int i = 0; i < board->selected_items_count; i++) {
+        if(guess_check_result > 0) {
+            board->selected_items[i]->is_hidden = true;
+        }
         board->selected_items[i]->is_selected = false;
         board->selected_items[i] = NULL;
     }
     board->selected_items_count = 0;
+}
+
+int check_guess(cboard* board) {
+    int group_to_check = board->selected_items[0]->group_indentifier;
+    for(int i = 1; i < 4; i++) {
+        if(board->selected_items[i]->group_indentifier != group_to_check) {
+            return 0;
+        }
+    }
+    return group_to_check;
+}
+
+void handle_key_press(cboard* board) {
+        char input = wgetch(stdscr);
+
+    switch (input) {
+        // Handle arrow keys
+        case ESCAPE_SEQUENCE_START:
+            wgetch(stdscr); // Skip over '[' part of arrow key sequence 
+            input = wgetch(stdscr);
+            handle_arrow_keys(board, input);
+            break;
+        // Stop game loop
+        case Q_KEY_LOWER:
+        case Q_KEY_UPPER:
+            handle_quit(board);
+            break;
+        // Highlight tile
+        case TOGGLE_TILE_HIGHLIGHT:
+            handle_tile_highlight_toggle(board);
+            break;
+        // Submit guess
+        case SUBMIT_GUESS:
+            handle_guess_submit(board);
+            break;
+        // Handle up movement
+        case W_KEY_LOWER:
+        case W_KEY_UPPER:
+            handle_up_movement(board);
+            break;
+        // Handle down movement
+        case S_KEY_LOWER:
+        case S_KEY_UPPER:
+            handle_down_movement(board);
+            break;
+        // Handle right movement
+        case D_KEY_LOWER:
+        case D_KEY_UPPER:
+            handle_right_movement(board);
+            break;
+        // Handle left movement
+        case A_KEY_LOWER:
+        case A_KEY_UPPER:
+            handle_left_movement(board);
+            break;
+        default:
+            break;
+    }
+    board->items[board->previous_highlighted_tile].is_highlighted = false;
+    board->items[board->current_highlighted_tile].is_highlighted = true;
+}
+
+void handle_quit(cboard* board) {
+    board->game_active = false;
+}
+
+void handle_arrow_keys(cboard* board, char input) {
+    switch (input) {
+        case UP_ARROW:
+            handle_up_movement(board);
+            break;
+        case DOWN_ARROW:
+            handle_down_movement(board);
+            break;
+        case RIGHT_ARROW:
+            handle_right_movement(board);
+            break;
+        case LEFT_ARROW:
+            handle_left_movement(board);
+            break;
+    }
 }
 
 void handle_up_movement(cboard* board) {

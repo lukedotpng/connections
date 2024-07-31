@@ -8,24 +8,24 @@ int main() {
     citem items[16];
 
     cgroup group_1 = {
-        .group_identifier=YELLOW_GROUP,
+        .identifier=YELLOW_GROUP,
         .category="YEARN",
-        .group_guessed_correctly=false
+        .guessed_correctly=false
     };
     cgroup group_2 = {
-        .group_identifier=GREEN_GROUP,
+        .identifier=GREEN_GROUP,
         .category="MAGAZINES",
-        .group_guessed_correctly=false
+        .guessed_correctly=false
     };
     cgroup group_3 = {
-        .group_identifier=BLUE_GROUP,
+        .identifier=BLUE_GROUP,
         .category="CHARACTERS IN BOND MOVIES",  
-        .group_guessed_correctly=false
+        .guessed_correctly=false
     };
     cgroup group_4 = {
-        .group_identifier=PURPLE_GROUP,
+        .identifier=PURPLE_GROUP,
         .category="WORDS THAT PRECEDE \"POP\" IN MUSIC GENRES",
-        .group_guessed_correctly=false
+        .guessed_correctly=false
     };
 
     cboard board = {
@@ -113,6 +113,7 @@ int main() {
             },
         },
         .selected_items_count = 0,
+        .solved_groups_count = 0,
         .game_active = true
     };
 
