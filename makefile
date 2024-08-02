@@ -6,16 +6,16 @@ LINKFLAGS :=
 
 OBJDIR := objs
 BINDIR := bin
-objects := main.o connections.o tcanvas.o
+objects := main.o connections.o tcanvas.o http_request.o
 
 OS := $(shell uname)
 
 ifeq ($(OS),Linux)
-	CFLAGS += -static
-	LINKFLAGS += -lncurses -ltinfo
+	CFLAGS += 
+	LINKFLAGS += -lncurses -ltinfo -lcurl
 else ifeq ($(shell uname),Darwin)
 	OS = osx
-	CFLAGS += ${ncursespath} 
+	CFLAGS += ${ncursespath} -lcurl
 endif
 
 build: $(objects) | ${BINDIR}

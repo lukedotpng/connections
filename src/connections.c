@@ -37,7 +37,7 @@ int game_loop(cboard board) {
     return 0;
 }
 
-void handle_tile_highlight_toggle(cboard* board) {
+void handle_tile_select_toggle(cboard* board) {
     if(board->items[board->current_highlighted_tile].is_selected) {
         citem* new_selected_items[4];
         int selected_items_index = 0;
@@ -73,19 +73,36 @@ void handle_guess_submit(cboard* board) {
 
     int guess_check_result = check_guess(board);
 
-    if(guess_check_result > 0) {
-        board->solved_groups[board->solved_groups_count] = guess_check_result;
-        board->solved_groups_count++;
-        clear();
-    }
-
-    for(int i = 0; i < board->selected_items_count; i++) {
+    for(int i = 0; i < 4; i++) {
         if(guess_check_result > 0) {
             board->selected_items[i]->is_hidden = true;
         }
         board->selected_items[i]->is_selected = false;
         board->selected_items[i] = NULL;
     }
+
+    if(guess_check_result > 0) {
+        board->solved_groups[board->solved_groups_count] = guess_check_result;
+        board->solved_groups_count++;
+        
+        int new_items_array_size = 16 - (board->solved_groups_count * 4);
+        citem sorted_items[new_items_array_size];
+
+        int sorted_array_index = 0;
+        for(int i = 0; i < (16 - ((board->solved_groups_count - 1) * 4)); i++) {
+            if(board->items[i].is_hidden) {
+                continue;
+            }
+            sorted_items[sorted_array_index] = board->items[i];
+            sorted_array_index++;
+        }
+        memcpy(board->items, sorted_items, sizeof(citem) * new_items_array_size);
+
+        board->items[0].is_highlighted = true;
+        board->current_highlighted_tile = 0;
+        clear();
+    }
+
     board->selected_items_count = 0;
 }
 
@@ -116,7 +133,7 @@ void handle_key_press(cboard* board) {
             break;
         // Highlight tile
         case TOGGLE_TILE_HIGHLIGHT:
-            handle_tile_highlight_toggle(board);
+            handle_tile_select_toggle(board);
             break;
         // Submit guess
         case SUBMIT_GUESS:
@@ -171,16 +188,24 @@ void handle_arrow_keys(cboard* board, char input) {
 }
 
 void handle_up_movement(cboard* board) {
+    if(board->solved_groups_count == 3) {
+        return;
+    }
+
     if (board->current_highlighted_tile <= 3) {
-        board->current_highlighted_tile += 12;
+        board->current_highlighted_tile += (12 - (board->solved_groups_count * 4));
     } else {
         board->current_highlighted_tile -= 4;
     }
 }
 
 void handle_down_movement(cboard* board) {
-    if (board->current_highlighted_tile >= 12) {
-        board->current_highlighted_tile -= 12;
+    if(board->solved_groups_count == 3) {
+        return;
+    }
+
+    if (board->current_highlighted_tile >= (12 - (board->solved_groups_count * 4))) {
+        board->current_highlighted_tile -= (12 - (board->solved_groups_count * 4));
     } else {
         board->current_highlighted_tile += 4;
     }

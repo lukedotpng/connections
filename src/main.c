@@ -3,8 +3,12 @@
 #include <ncurses.h>
 #include "../lib/tcanvas.h"
 #include "../lib/connections.h"
+#include "../lib/http_request.h"
 
 int main() {
+    get_request("https://www.nytimes.com/svc/connections/v2/2024-08-01.json");
+
+    return 0;
     citem items[16];
 
     cgroup group_1 = {

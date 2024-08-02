@@ -25,11 +25,10 @@ void tdraw_board(cboard* board);
  * 
  * @param item 
  * @param length 
- * @param height 
- * @param column
  * @param row
+ * @param board_placement
  */
-void tdraw_tile(citem item, int length, int height, int board_placement);
+void tdraw_tile(citem item, int length, int row, int board_placement);
 
 void tdraw_padding(int length, int column, int row);
 

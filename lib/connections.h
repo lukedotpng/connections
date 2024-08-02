@@ -57,8 +57,7 @@ typedef struct connections_board {
 
 int game_loop(cboard board);
 
-
-void handle_tile_highlight_toggle(cboard* board);
+void handle_tile_select_toggle(cboard* board);
 void handle_guess_submit(cboard* board);
 int check_guess(cboard* board);
 

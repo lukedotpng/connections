@@ -34,14 +34,13 @@ void tdraw_board(cboard* board) {
     }
     // Add extra padding to the tile size
     int tile_length = longest_item_length + 2;
-    int tile_height = 3;
 
     int item_count = 0;
     int placement_index = 0;
-    for(int row = 0; row < 4; row++) {
+    for(int row = board->solved_groups_count; row < 4; row++) {
         for(int col = 0; col < 4; col++) {
             if(board->items[item_count].is_hidden == false) {
-                tdraw_tile(board->items[item_count], tile_length, tile_height, placement_index);
+                tdraw_tile(board->items[item_count], tile_length, row, placement_index);
                 placement_index++;
             }
             item_count++;
@@ -49,12 +48,12 @@ void tdraw_board(cboard* board) {
     }
 
     for(int i = 0; i < board->solved_groups_count; i++) {
-        // tdraw_guessed_row(board->groups[board->solved_groups[i]], i, tile_length);
+        tdraw_guessed_row(board->groups[board->solved_groups[i] - 1], i, tile_length);
     }
     // printf("\n");
 }
 
-void tdraw_tile(const citem item, int length, int height, int board_placement) {
+void tdraw_tile(const citem item, int length, int row, int board_placement) {
     int clue_length = strlen(item.clue);
     int clue_padding = length - clue_length;
 
@@ -63,7 +62,7 @@ void tdraw_tile(const citem item, int length, int height, int board_placement) {
     // 8  9  10 11 
     // 12 13 14 15 
     int column = (board_placement % 4) * (length + 2);
-    int row = (board_placement / 4) * 4;
+    row *= 4;
 
     int left_padding_size = clue_padding / 2;
     int right_padding_size = clue_padding - left_padding_size;
@@ -106,16 +105,17 @@ void tdraw_guessed_row(cgroup group, int row, int length) {
     attron(COLOR_PAIR(group.identifier));
 
     int row_length = (length * 4) + 6;
+    row *= 4;
     int category_length = strlen(group.category);
     int row_padding = row_length - category_length;
 
     int left_padding_size = row_padding / 2;
     int right_padding_size = row_padding - left_padding_size;
 
-    tdraw_padding(row_length, row, 0);
-    tdraw_padding(left_padding_size, row + 1, 0);
-    tdraw_padding(right_padding_size, row + 1, length - right_padding_size);
-    tdraw_padding(row_length, row + 2, 0);
+    tdraw_padding(row_length, 0, row);
+    tdraw_padding(left_padding_size, 0, row + 1);
+    tdraw_padding(right_padding_size, row_length - right_padding_size, row + 1);
+    tdraw_padding(row_length, 0, row + 2);
 
     mvprintw(row + 1, left_padding_size, group.category);
 
