@@ -24,7 +24,7 @@ size_t write_callback(char *data, size_t size, size_t data_size, void* user_data
     return data_size;
 }
 
-void get_request(char* url) {
+char* get_request(char* url) {
     struct memory data_chunk = {0};
 
     CURL* curl_handle = curl_easy_init();
@@ -38,7 +38,6 @@ void get_request(char* url) {
 
         curl_easy_cleanup(curl_handle);
         curl_handle = NULL;
+        return data_chunk.data;
     }
-
-    printf("%s\n", data_chunk.data);
 }

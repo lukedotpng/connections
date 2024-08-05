@@ -9,6 +9,6 @@ struct memory {
 };
 
 void init_curl();
-void get_request(char* url);
+char* get_request(char* url);
 
 #endif
