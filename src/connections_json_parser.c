@@ -10,6 +10,8 @@ int parse_json(char* json_string, cboard* board) {
 
     parse_categories(json_string, board); 
     parse_items(json_string, board);
+
+    return 0;
 }
 
 void parse_categories(char *json_string, cboard *board) {

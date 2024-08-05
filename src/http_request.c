@@ -40,4 +40,6 @@ char* get_request(char* url) {
         curl_handle = NULL;
         return data_chunk.data;
     }
+
+    return "";
 }
