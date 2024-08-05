@@ -6,10 +6,8 @@ BINDIR := bin
 SRCDIR := src
 src_files := main.c connections.c tcanvas.c http_request.c connections_json_parser.c
 
-OS := $(shell uname)
-
 build: ${BINDIR}
-	${CC} ${CFLAGS} $(patsubst %,$(SRCDIR)/%,${src_files}) -o ${BINDIR}/${OS}_build ${LINKFLAGS}
+	${CC} ${CFLAGS} $(patsubst %,$(SRCDIR)/%,${src_files}) -o ${BINDIR}/connections ${LINKFLAGS}
 
 ${BINDIR}:
 	mkdir $@
