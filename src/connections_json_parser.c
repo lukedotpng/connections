@@ -44,7 +44,7 @@ void parse_items(char *json_string, cboard *board) {
         int item_length = current_char - item_key_string;
         char* current_item = malloc(item_length + 1);
         strncpy(current_item, item_key_string, item_length);   
-        board->items[i].clue = current_item;
+        board->items[i].clue = remove_utf8_chars(current_item);
         item_key_string = strstr(current_char, "\"content\"") + 11;
     }
 
@@ -70,7 +70,7 @@ char* remove_utf8_chars(char* string) {
     int length = strlen(string);
     int positions_to_remove_count = 0;
     for(int i = 0; i < length; i++) {
-        if((int)string[i] == -30 || (int)string[i] == -128) {
+        if((int)string[i] < 0) {
             positions_to_remove_count++;
         }
         if((int)string[i] < 0) {
@@ -78,9 +78,11 @@ char* remove_utf8_chars(char* string) {
                 case -100:
                 case -99:
                     string[i] = '"';
+                    positions_to_remove_count--;
                     break;
                 case -103:
                     string[i] = '\'';
+                    positions_to_remove_count--;
                     break;
             }
         }
