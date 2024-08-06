@@ -6,6 +6,6 @@
 int parse_json(char* json_string, cboard* board);
 void parse_categories(char* json_string, cboard* board);
 void parse_items(char* json_string, cboard* board);
-char* remove_utf8_chars(char* string);
+char* format_punctuation(char* string);
 
 #endif

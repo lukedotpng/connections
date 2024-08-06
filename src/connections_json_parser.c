@@ -24,8 +24,9 @@ void parse_categories(char *json_string, cboard *board) {
         }
         int category_length = current_char - title_key_string;
         char* current_category = malloc(category_length + 1);
-        strncpy(current_category, title_key_string, category_length);   
-        board->groups[i].category = remove_utf8_chars(current_category);
+        strncpy(current_category, title_key_string, category_length);  
+        current_category[category_length] = '\0'; 
+        board->groups[i].category = format_punctuation(current_category);
         board->groups[i].identifier = i + 1;
         title_key_string = strstr(current_char, "\"title\"") + 9;
     }
@@ -44,7 +45,8 @@ void parse_items(char *json_string, cboard *board) {
         int item_length = current_char - item_key_string;
         char* current_item = malloc(item_length + 1);
         strncpy(current_item, item_key_string, item_length);   
-        board->items[i].clue = remove_utf8_chars(current_item);
+        current_item[item_length] = '\0';
+        board->items[i].clue = format_punctuation(current_item);
         item_key_string = strstr(current_char, "\"content\"") + 11;
     }
 
@@ -66,7 +68,7 @@ void parse_items(char *json_string, cboard *board) {
     return;
 }
 
-char* remove_utf8_chars(char* string) {
+char* format_punctuation(char* string) {
     int length = strlen(string);
     int positions_to_remove_count = 0;
     for(int i = 0; i < length; i++) {
