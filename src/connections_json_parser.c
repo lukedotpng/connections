@@ -1,8 +1,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../lib/connections_json_parser.h"
-#include "../lib/connections.h"
+#include "../include/connections_json_parser.h"
+#include "../include/connections.h"
 
 int parse_json(char* json_string, cboard* board) {
     int json_string_length = strlen(json_string);

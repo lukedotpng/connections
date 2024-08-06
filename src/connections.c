@@ -1,5 +1,5 @@
-#include "../lib/connections.h"
-#include "../lib/tcanvas.h"
+#include "../include/connections.h"
+#include "../include/tcanvas.h"
 #include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>

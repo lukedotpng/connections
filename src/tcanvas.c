@@ -1,4 +1,4 @@
-#include "../lib/tcanvas.h"
+#include "../include/tcanvas.h"
 #include <locale.h>
 #include <ncurses.h>
 #include <stdlib.h>
@@ -21,7 +21,7 @@ void initialize_canvas() {
 
     cbreak(); 
     curs_set(0);
-    
+
     noecho();
 }
 
