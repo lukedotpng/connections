@@ -1,16 +1,24 @@
 CC := gcc
-CFLAGS := -g
+CFLAGS := -g -I${CURSES_BUILD_DIR}/include -L${CURSES_BUILD_DIR}/lib
 LINKFLAGS := -lncurses -lcurl
 
 BINDIR := bin
-SRCDIR := src
-src_files := main.c connections.c tcanvas.c http_request.c connections_json_parser.c
+NCURSES_BUILD_DIR := external/ncurses-6.0/ncurses-link
 
-build: ${BINDIR}
-	${CC} ${CFLAGS} $(patsubst %,$(SRCDIR)/%,${src_files}) -o ${BINDIR}/connections ${LINKFLAGS}
+build: ${BINDIR} ${CURSES_BUILD_DIR} install_ncurses
+	${CC} ${CFLAGS} ./src/*.c -o ${BINDIR}/connections ${LINKFLAGS}
+
+install_ncurses: configure_ncurses
+	cd external/ncurses-6.0/ && make install
+
+configure_ncurses:
+	cd external/ncurses-6.0/ && ./configure --prefix=${PWD}/${NCURSES_BUILD_DIR}
 
 ${BINDIR}:
 	mkdir $@
 
+${NCURSES_BUILD_DIR}:
+	mkdir $@
+
 clean:
-	rm -rf ./bin/*
+	rm -rf ./bin/* ./external/ncurses/
