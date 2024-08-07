@@ -1,4 +1,6 @@
 /bin
 /objs
+# Stop tracking ncurses after it has been added
+/external/ncurses-6.0
 .archive
 .DS_Store
