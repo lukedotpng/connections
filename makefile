@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -g -I${CURSES_BUILD_DIR}/include -L${CURSES_BUILD_DIR}/lib
+CFLAGS = -g -I${NCURSES_BUILD_DIR}/include -L${NCURSES_BUILD_DIR}/lib
 LINKFLAGS := -lncurses -lcurl
 
 BINDIR := bin
