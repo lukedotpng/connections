@@ -1,5 +1,6 @@
 #include "../include/connections.h"
 #include "../include/tcanvas.h"
+#include <curses.h>
 #include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>
@@ -31,7 +32,7 @@ int game_loop(cboard board) {
     }   
 
     printf("\n\n");
-
+    move(0, 0);
     curs_set(1);
     reset_shell_mode();
     return 0;
