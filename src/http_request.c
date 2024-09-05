@@ -1,4 +1,4 @@
-#include "../include/http_request.h"
+#include "../lib/http_request.h"
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>

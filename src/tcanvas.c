@@ -1,4 +1,4 @@
-#include "../include/tcanvas.h"
+#include "../lib/tcanvas.h"
 #include <locale.h>
 #include <ncurses.h>
 #include <stdlib.h>

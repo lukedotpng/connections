@@ -4,10 +4,10 @@
 #include <ncurses.h>
 #include <string.h>
 #include <time.h>
-#include "../include/tcanvas.h"
-#include "../include/connections.h"
-#include "../include/http_request.h"
-#include "../include/connections_json_parser.h"
+#include "../lib/tcanvas.h"
+#include "../lib/connections.h"
+#include "../lib/http_request.h"
+#include "../lib/connections_json_parser.h"
 
 int main() {
 
