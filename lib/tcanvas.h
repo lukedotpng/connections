@@ -12,6 +12,8 @@
 #define HIGHLIGHTED_COLOR_PAIR     6
 #define SELECTED_COLOR_PAIR        7
 
+#define MIN_TILE_LENGTH 12
+
 void initialize_canvas();
 
 /**

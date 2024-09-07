@@ -34,6 +34,9 @@ void tdraw_board(cboard* board) {
     }
     // Add extra padding to the tile size
     int tile_length = longest_item_length + 2;
+    if(tile_length < MIN_TILE_LENGTH) {
+        tile_length = MIN_TILE_LENGTH;
+    }
 
     int item_count = 0;
     int placement_index = 0;

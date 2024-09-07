@@ -27,8 +27,6 @@ int main() {
         snprintf(daily_connections_url, 59, "https://www.nytimes.com/svc/connections/v2/%d-%d-0%d.json", current_year, current_month, current_day);
     }
 
-    printf("%s\n", daily_connections_url);
-
     char* json_string = get_request(daily_connections_url);
     cboard board = (cboard){0};
     board.game_active = true;
