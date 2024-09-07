@@ -1,7 +1,5 @@
 #include "../lib/tcanvas.h"
-#include <locale.h>
 #include <ncurses.h>
-#include <stdlib.h>
 #include <string.h>
 
 void initialize_canvas() {
@@ -89,7 +87,7 @@ void tdraw_tile(const citem item, int length, int row, int board_placement) {
     if(item.is_highlighted) {
         attron(A_UNDERLINE | A_BOLD);
     }
-    mvprintw(row + 1, column + left_padding_size, item.clue);
+    mvprintw(row + 1, column + left_padding_size, "%s", item.clue);
     attroff(A_UNDERLINE | A_BOLD);
 
     // Deactivate tile color theme
@@ -119,7 +117,7 @@ void tdraw_guessed_row(cgroup group, int row, int length) {
     tdraw_padding(right_padding_size, row_length - right_padding_size, row + 1);
     tdraw_padding(row_length, 0, row + 2);
 
-    mvprintw(row + 1, left_padding_size, group.category);
+    mvprintw(row + 1, left_padding_size, "%s", group.category);
 
     attroff(A_COLOR);
 }

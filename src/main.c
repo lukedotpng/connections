@@ -2,9 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <ncurses.h>
-#include <string.h>
 #include <time.h>
-#include "../lib/tcanvas.h"
 #include "../lib/connections.h"
 #include "../lib/http_request.h"
 #include "../lib/connections_json_parser.h"
