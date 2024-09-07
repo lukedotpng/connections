@@ -3,7 +3,6 @@ CFLAGS = -g
 LINKFLAGS := -lncurses -lcurl
 
 BINDIR := bin
-NCURSES_BUILD_DIR := external/ncurses-6.0/ncurses-link
 
 all: ${BINDIR} build
 
