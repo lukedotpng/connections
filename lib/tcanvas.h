@@ -14,7 +14,11 @@
 
 #define MIN_TILE_LENGTH 12
 
+
+
 void initialize_canvas();
+
+void exit_canvas();
 
 /**
  * @brief Draws the connection board

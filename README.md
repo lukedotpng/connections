@@ -1,5 +1,8 @@
 ## Play the daily connections from your terminal! (WIP)
 
+#### FYI
+This project can be a bit buggy, especially with memory issues. Just did this for fun and to get some expirience again with C and ncurses! 
+
 #### Build
 
 -   Use `make` to build a binary into ./bin/connections
@@ -11,10 +14,3 @@
 -   Use `WASD` or arrow keys to hover over different tiles
 -   Press `space` to select a tile
 -   Once you've selected four tiles, press `enter` to make a guess
-
-#### Features To Add
-
--   Use smaller ncurses-like library for drawing board
--   Limit amount of guesses
--   Tell player when they have guessed 3/4 correct from a category
--   Allow for inputing a date when running to play past boards

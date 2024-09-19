@@ -1,6 +1,5 @@
 #include "../lib/connections.h"
 #include "../lib/tcanvas.h"
-#include <curses.h>
 #include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>
@@ -31,10 +30,7 @@ int game_loop(cboard board) {
         board.previous_highlighted_tile = board.current_highlighted_tile;
     }   
 
-    printf("\n\n");
-    move(0, 0);
-    curs_set(1);
-    reset_shell_mode();
+    exit_canvas();
     return 0;
 }
 
@@ -118,13 +114,13 @@ int check_guess(cboard* board) {
 }
 
 void handle_key_press(cboard* board) {
-        char input = wgetch(stdscr);
+        char input = getch();
 
     switch (input) {
         // Handle arrow keys
         case ESCAPE_SEQUENCE_START:
-            wgetch(stdscr); // Skip over '[' part of arrow key sequence 
-            input = wgetch(stdscr);
+            getch(); // Skip over '[' part of arrow key sequence 
+            input = getch();
             handle_arrow_keys(board, input);
             break;
         // Stop game loop

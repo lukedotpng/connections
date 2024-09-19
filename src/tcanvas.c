@@ -23,6 +23,14 @@ void initialize_canvas() {
     noecho();
 }
 
+void exit_canvas() {
+    printf("\n\n");
+    move(0, 0);
+    curs_set(1);
+    reset_prog_mode();
+    reset_shell_mode();
+}
+
 void tdraw_board(cboard* board) {
     // Finding longest clue length to determine the size of all tiles
     // using unsigned here isnt really needed, but extra safety since strlen returns unsigned
